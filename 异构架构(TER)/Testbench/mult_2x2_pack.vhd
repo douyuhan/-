@@ -1,0 +1,10 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+package mult_2x2_pack is
+	generic (n : integer :=1023 );
+   type t_1d_array is array(integer range 0 to n) of std_logic_vector(7 downto 0);
+   type t_2d_array is array(integer range 0 to n) of t_1d_array;
+
+end  mult_2x2_pack;

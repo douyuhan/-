@@ -1,0 +1,39 @@
+library ieee;
+use ieee.std_logic_1164.all;
+library work;
+use work.mult_2x2_pack.all;
+
+entity tempsFPGA is
+	--generic (n : integer :=1023 )
+	port(
+	clk: in std_logic;
+	col: in integer(range 0 to n);--on suppose aux plus 1024
+	lig: in integer(range 0 to n);
+	Mat: in t_2d_array
+	);
+end tempsFPGA;
+
+architecture archi of tempsFPGA is
+	signal Gx:t_2d_array;
+	signal Gy:t_2d_array;
+	variable i:integer(range 0 to n):=1;
+	variable j:integer(range 0 to n):=1;
+	
+begin
+	process (clk)
+	begin
+		if(rising_edge(clk))
+			Gx(i)(j)=	"10000000"
+							+"000"&Mat(i-1)(j+1)(7 downto 3)-"000"&Mat(i-1)(j-1)(7 downto 3)
+							+"00"&Mat(i)(j+1)(7 downto 2)-"00"&Mat(i)(j-1)(7 downto 2)
+							+"000"&Mat(i+1)(j+1)(7 downto 3)-"000"&Mat(i+1)(j+1)(7 downto 3);
+							
+			Gy(i)(j)=	"10000000"
+							+"000"&Mat(i-1)(j-1)(4 downto 0)-"000"&Mat(i-1)(j-1)(4 downto 0)
+							+"00"&Mat(i-1)(j+1)(5 downto 0)-"00"&Mat(i)(j-1)(5 downto 0)
+							+"000"&Mat(i-1)(j+1)(4 downto 0)-"000"&Mat(i+1)(j+1)(4 downto 0);			
+			
+		end if;
+	end process;
+	
+end archi;
